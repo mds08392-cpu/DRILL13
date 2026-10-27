@@ -36,7 +36,11 @@ class AutoRun:
         return get_time() - self.start_time >= AUTORUN_TIME
 
     def draw(self):
-        pass
+        boy = self.boy
+        row = 100 if boy.face_dir == 1 else 0
+        size = 100 * AUTORUN_SCALE
+        boy.image.clip_draw(boy.frame * 100, row, 100, 100,
+                            boy.x, boy.y + (size - 100) / 2, size, size)
 
 
 class Boy:
@@ -136,6 +140,8 @@ class Boy:
             row = 300 if self.face_dir == 1 else 200
             self.image.clip_composite_draw(
                 0, row, 100, 100, angle, '', self.x, self.y - 30, 100, 100)
+        elif self.state == 'AUTORUN':
+            self.autorun.draw()
         elif self.state == 'RUN':
             row = 100 if self.face_dir == 1 else 0
             self.image.clip_draw(self.frame * 100, row, 100, 100, self.x, self.y)
