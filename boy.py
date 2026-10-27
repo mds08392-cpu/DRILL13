@@ -1,6 +1,6 @@
 import math
 from pico2d import (load_image, get_time, SDL_KEYDOWN, SDL_KEYUP,
-                    SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT)
+                    SDLK_SPACE, SDLK_LEFT, SDLK_RIGHT, SDLK_a)
 from transitions.extensions import GraphMachine
 
 SLEEP_TIME = 5.0
@@ -86,6 +86,10 @@ class Boy:
             self.right_held = down
         elif event.key == SDLK_LEFT:
             self.left_held = down
+
+        if down and event.key == SDLK_a and self.state != 'AUTORUN':
+            self.a_down()
+            return
 
         if self.state == 'SLEEP':
             # 스페이스바는 IDLE로, 방향키는 바로 RUN으로 깨움
