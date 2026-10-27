@@ -103,6 +103,13 @@ class Boy:
             self.a_down()
             return
 
+        if self.state == 'AUTORUN':
+            # 방향키를 누르면 무적 런이 취소되고 그 방향으로 RUN
+            if down and self.move_dir() != 0:
+                self.face_dir = 1 if event.key == SDLK_RIGHT else -1
+                self.start_run()
+            return
+
         if self.state == 'SLEEP':
             # 스페이스바는 IDLE로, 방향키는 바로 RUN으로 깨움
             if down and event.key == SDLK_SPACE:
