@@ -32,7 +32,7 @@ class AutoRun:
 
 
 class Boy:
-    states = ['IDLE', 'RUN', 'SLEEP']
+    states = ['IDLE', 'RUN', 'SLEEP', 'AUTORUN']
 
     def __init__(self):
         self.x, self.y = 400, 90
@@ -42,6 +42,7 @@ class Boy:
         self.idle_start_time = get_time()
         self.right_held = False
         self.left_held = False
+        self.autorun = AutoRun(self)
 
         self.machine = GraphMachine(
             model=self, states=Boy.states, initial='IDLE',
@@ -51,9 +52,22 @@ class Boy:
             'time_out', 'IDLE', 'SLEEP', conditions='is_sleep_time')
         self.machine.add_transition(
             'space_down', 'SLEEP', 'IDLE', after='reset_idle_timer')
-        self.machine.add_transition('start_run', ['IDLE', 'SLEEP'], 'RUN')
+        self.machine.add_transition(
+            'start_run', ['IDLE', 'SLEEP', 'AUTORUN'], 'RUN')
+        self.machine.add_transition(
+            'a_down', ['IDLE', 'RUN', 'SLEEP'], 'AUTORUN',
+            after='autorun_enter')
+        self.machine.add_transition(
+            'autorun_timeout', 'AUTORUN', 'IDLE',
+            conditions='autorun_expired', after='reset_idle_timer')
         self.machine.add_transition(
             'stop_run', 'RUN', 'IDLE', after='reset_idle_timer')
+
+    def autorun_enter(self):
+        self.autorun.enter()
+
+    def autorun_expired(self):
+        return self.autorun.is_timeout()
 
     def is_sleep_time(self):
         return get_time() - self.idle_start_time >= SLEEP_TIME
