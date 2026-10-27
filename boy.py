@@ -25,6 +25,12 @@ class AutoRun:
         boy = self.boy
         boy.frame = (boy.frame + 1) % 8
         boy.x += boy.face_dir * AUTORUN_SPEED
+        if boy.x >= 800:
+            boy.x = 800
+            boy.face_dir = -1
+        elif boy.x <= 0:
+            boy.x = 0
+            boy.face_dir = 1
 
     def is_timeout(self):
         return get_time() - self.start_time >= AUTORUN_TIME
