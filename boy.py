@@ -40,7 +40,7 @@ class AutoRun:
         row = 100 if boy.face_dir == 1 else 0
         size = 100 * AUTORUN_SCALE
         boy.image.clip_draw(boy.frame * 100, row, 100, 100,
-                            boy.x, boy.y + (size - 100) / 2, size, size)
+                            boy.x, boy.y + (size - 140) / 2, size, size)
 
 
 class Boy:
