@@ -105,7 +105,7 @@ class Boy:
 
         if self.state == 'AUTORUN':
             # 방향키를 누르면 무적 런이 취소되고 그 방향으로 RUN
-            if down and self.move_dir() != 0:
+            if down and event.key in (SDLK_LEFT, SDLK_RIGHT):
                 self.face_dir = 1 if event.key == SDLK_RIGHT else -1
                 self.start_run()
             return
