@@ -132,6 +132,7 @@ class Boy:
             self.x = max(0, min(800, self.x + self.face_dir * RUN_SPEED))
         elif self.state == 'AUTORUN':
             self.autorun.do()
+            self.autorun_timeout()
 
     def draw(self):
         if self.state == 'SLEEP':
