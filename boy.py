@@ -22,7 +22,9 @@ class AutoRun:
         pass
 
     def do(self):
-        pass
+        boy = self.boy
+        boy.frame = (boy.frame + 1) % 8
+        boy.x += boy.face_dir * AUTORUN_SPEED
 
     def is_timeout(self):
         return get_time() - self.start_time >= AUTORUN_TIME
@@ -118,6 +120,8 @@ class Boy:
         elif self.state == 'RUN':
             self.frame = (self.frame + 1) % 8
             self.x = max(0, min(800, self.x + self.face_dir * RUN_SPEED))
+        elif self.state == 'AUTORUN':
+            self.autorun.do()
 
     def draw(self):
         if self.state == 'SLEEP':
