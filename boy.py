@@ -5,6 +5,30 @@ from transitions.extensions import GraphMachine
 
 SLEEP_TIME = 5.0
 RUN_SPEED = 5
+AUTORUN_TIME = 5.0
+AUTORUN_SPEED = 15
+AUTORUN_SCALE = 2
+
+
+class AutoRun:
+    def __init__(self, boy):
+        self.boy = boy
+        self.start_time = 0.0
+
+    def enter(self):
+        self.start_time = get_time()
+
+    def exit(self):
+        pass
+
+    def do(self):
+        pass
+
+    def is_timeout(self):
+        return get_time() - self.start_time >= AUTORUN_TIME
+
+    def draw(self):
+        pass
 
 
 class Boy:
