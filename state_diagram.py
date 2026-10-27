@@ -4,18 +4,19 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.family'] = 'Malgun Gothic'
 from matplotlib.patches import FancyBboxPatch, Circle, FancyArrowPatch
 
-fig, ax = plt.subplots(figsize=(11, 4.5))
-ax.set_xlim(0, 18); ax.set_ylim(-0.8, 6.2); ax.axis('off')
+fig, ax = plt.subplots(figsize=(11, 7))
+ax.set_xlim(0, 18); ax.set_ylim(-4.2, 6.2); ax.axis('off')
 
-def box(x, name, c):
-    ax.add_patch(FancyBboxPatch((x - 1.1, 2.9), 2.2, 1.2, boxstyle='round,pad=0.1', fc=c, ec='black'))
-    ax.text(x, 3.5, name, ha='center', va='center', fontsize=16)
+def box(x, name, c, y=2.9):
+    ax.add_patch(FancyBboxPatch((x - 1.1, y), 2.2, 1.2, boxstyle='round,pad=0.1', fc=c, ec='black'))
+    ax.text(x, y + 0.6, name, ha='center', va='center', fontsize=16)
 
 def arrow(p, q, rad):
     ax.add_patch(FancyArrowPatch(p, q, arrowstyle='-|>', mutation_scale=18,
                                  connectionstyle=f'arc3,rad={rad}'))
 
 box(3, 'RUN', '#d5f5d5'); box(9, 'IDLE', '#cfe8ff'); box(15, 'SLEEP', '#e0d4ff')
+box(9, 'AUTORUN', '#ffe0b3', y=-3.4)
 ax.add_patch(Circle((9, 5.4), 0.25, color='black'))
 ax.text(9.6, 5.4, 'start', va='center')
 arrow((9, 5.15), (9, 4.3), 0)
@@ -32,4 +33,15 @@ arrow((13.7, 3.05), (10.3, 3.05), -0.3)
 ax.text(12, 1.75, 'space_down\n[SPACE 키]', ha='center', va='center')
 arrow((14.5, 2.85), (3.5, 2.85), -0.55)
 ax.text(9, -0.4, 'right_down / left_down [SLEEP 중 방향키 누름]', ha='center', fontsize=10, color='#a02020')
+# AUTORUN
+arrow((8.0, 2.8), (7.9, -2.5), 0.15)
+ax.text(8.0, 0.9, 'a_down', ha='center', fontsize=9)
+arrow((10.1, -2.5), (10.0, 2.8), 0.15)
+ax.text(10.9, 0.9, 'autorun_timeout\n[5초 경과]', ha='center', fontsize=9)
+arrow((3, 2.8), (7.9, -3.0), 0.1)
+ax.text(4.2, -0.8, 'a_down', ha='center', fontsize=9)
+arrow((7.9, -3.4), (3.4, 2.8), -0.1)
+ax.text(6.6, -2.4, 'start_run\n[방향키 누름]', ha='center', fontsize=9)
+arrow((15, 2.8), (10.1, -3.0), -0.1)
+ax.text(13.6, -0.8, 'a_down', ha='center', fontsize=9)
 plt.savefig('boy_state_diagram.png', dpi=120, bbox_inches='tight')
